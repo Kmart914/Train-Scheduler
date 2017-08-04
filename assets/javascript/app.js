@@ -16,7 +16,6 @@ var config = {
  var frequency = "";
 
  $("#addButton").on("click", function() {
-   console.log("sfg");
 
    trainName = $('#inputName').val();
    destination = $('#inputDest').val();
@@ -34,7 +33,27 @@ var config = {
 
  database.ref().on("child_added", function(childSnapshot){
    var snap = childSnapshot.val();
-   console.log(snap);
+   //console.log(snap);
 
-   $("#trainTable").append("<tr>" + "<td>" + snap.trainName + "</td>" + "<td>" + snap.destination + "</td>" + "<td>" + snap.firstTrain + "</td>" +"<td>" + snap.frequency + "</td>")
+   $("#trainTable").append("<tr>" + "<td>" + snap.trainName + "</td>" + "<td>" + snap.destination +  "</td>" +"<td>" + snap.frequency + "</td>")
+
+   var trainFrequency = snap.frequency
+   console.log("Frequency: " + trainFrequency);
+   var trainTime = snap.firstTrain
+  console.log("First Train: " + trainTime);
+   var trainTimeConverted = moment(trainTime,  "hh:mm").subtract(1, "years");
+   console.log("Converted: " + trainTimeConverted);
+
+   var currentTime = moment();
+   console.log("Current Time: " + moment(currentTime).format("hh:mm"));
+
+
+   var timeDiff = moment().diff(moment(trainTime), "minutes");
+   
+   console.log("diff in time: " + timeDiff);
+
+   var tRemainder = timeDiff % trainFrequency;
+
+   console.log("remainder: " + tRemainder);
+
  });
