@@ -35,4 +35,6 @@ var config = {
  database.ref().on("child_added", function(childSnapshot){
    var snap = childSnapshot.val();
    console.log(snap);
+
+   $("#trainTable").append("<tr>" + "<td>" + snap.trainName + "</td>" + "<td>" + snap.destination + "</td>" + "<td>" + snap.firstTrain + "</td>" +"<td>" + snap.frequency + "</td>")
  });
