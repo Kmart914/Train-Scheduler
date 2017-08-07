@@ -35,25 +35,27 @@ var config = {
    var snap = childSnapshot.val();
    //console.log(snap);
 
-   $("#trainTable").append("<tr>" + "<td>" + snap.trainName + "</td>" + "<td>" + snap.destination +  "</td>" +"<td>" + snap.frequency + "</td>")
 
    var trainFrequency = snap.frequency
    console.log("Frequency: " + trainFrequency);
-   var trainTime = snap.firstTrain
-  console.log("First Train: " + trainTime);
-   var trainTimeConverted = moment(trainTime,  "hh:mm").subtract(1, "years");
-   console.log("Converted: " + trainTimeConverted);
 
-   var currentTime = moment();
-   console.log("Current Time: " + moment(currentTime).format("hh:mm"));
+   var trainTime = snap.firstTrain;
+   var trainTimeConverted = moment(trainTime,  "HH:mm").subtract(1, "years").format("X");
 
 
-   var timeDiff = moment().diff(moment(trainTime), "minutes");
-   
-   console.log("diff in time: " + timeDiff);
 
-   var tRemainder = timeDiff % trainFrequency;
+   var timeDiff = moment().diff(moment.unix(trainTime), "minutes");
+
+
+
+   var tRemainder = moment().diff(moment.unix(trainTime)) % trainFrequency;
+   var trainMinutes = trainFrequency - tRemainder;
+   console.log("fer: ", trainFrequency);
+   var arrival = moment().add(trainMinutes, "m").format("hh:mm A");
+
+   console.log("arrival: ", arrival);
 
    console.log("remainder: " + tRemainder);
+   $("#trainTable").append("<tr>" + "<td>" + snap.trainName + "</td>" + "<td>" + snap.destination +  "</td>" +"<td>" + snap.frequency + "</td>" + "<td>" + arrival + "</td>" +"<td>" + trainMinutes + "</td>")
 
  });
